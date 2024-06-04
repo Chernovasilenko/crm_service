@@ -11,13 +11,13 @@ export default createStore({
   mutations: {
     initializeStore(state) {
       const token = localStorage.getItem('token');
-    if (token !== null) {
-      state.token = token;
-      state.isAuthenticated = true;
-    } else {
-      state.token = '';
-      state.isAuthenticated = false;
-    }
+      if (token) {
+        state.token = token;
+        state.isAuthenticated = true;
+      } else {
+        state.token = '';
+        state.isAuthenticated = false;
+      }
     },
     setIsLoading(state, status) {
       state.isLoading = status

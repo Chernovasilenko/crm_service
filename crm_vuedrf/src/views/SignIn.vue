@@ -47,8 +47,9 @@
         }
       },
       methods: {
-        submitForm() {
-          // this.$store.commit('setIsLoading', true)
+        async submitForm() {
+          this.$store.commit('setIsLoading', true)
+
           axios.defaults.headers.common['Authorization'] = ''
           localStorage.removeItem('token')
 
@@ -57,14 +58,17 @@
             password: this.password
           }
 
-          axios
+          await axios
             .post('/api/v1/token/login/', formData)
             .then(response => {
               const token = response.data.auth_token
+              console.log("dfdf")
+              console.log(token)
 
               this.$store.commit('setToken', token)
 
               axios.defaults.headers.common['Authorization'] = 'Token ' + token
+              console.log(axios.defaults.headers.common['Authorization'])
 
               localStorage.setItem('token', token)
 
@@ -79,7 +83,8 @@
                 this.errors.push('Something went wrong. Please try again')
               }
             })
+            this.$store.commit('setIsLoading', false)
+          }
         }
       }
-    }
   </script>

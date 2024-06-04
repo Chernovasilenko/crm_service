@@ -6,6 +6,11 @@ import SignUp from '../views/SignUp.vue'
 import SignIn from '../views/SignIn.vue'
 import Dashboard from '../views/dashboard/Dashboard.vue'
 import MyAccount from '../views/dashboard/MyAccount.vue'
+import Leads from '../views/dashboard/Leads.vue'
+import Lead from '../views/dashboard/Lead.vue'
+import AddLead from '../views/dashboard/AddLead.vue'
+import EditLead from '../views/dashboard/EditLead.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,13 +32,37 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { requiresAuth: true }
+    meta: { requireLogin: true }
   },
   {
     path: '/dashboard/my-account',
     name: 'MyAccount',
     component: MyAccount,
-    meta: { requiresAuth: true }
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/leads',
+    name: 'Leads',
+    component: Leads,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/leads/:id',
+    name: 'Lead',
+    component: Lead,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/leads/add',
+    name: 'AddLead',
+    component: AddLead,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/leads/:id/edit',
+    name: 'EditLead',
+    component: EditLead,
+    meta: { requireLogin: true }
   },
   {
     path: '/about',
