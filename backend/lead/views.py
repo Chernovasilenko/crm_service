@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Lead
-from .serializers import LeadSerializer
+from lead.models import Lead
+from lead.serializers import LeadSerializer
 
 
 class LeadViewSet(viewsets.ModelViewSet):
@@ -13,4 +13,3 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
-        return super().perform_create(serializer)

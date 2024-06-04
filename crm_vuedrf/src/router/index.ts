@@ -9,6 +9,7 @@ import MyAccount from '../views/dashboard/MyAccount.vue'
 import Leads from '../views/dashboard/Leads.vue'
 import Lead from '../views/dashboard/Lead.vue'
 import AddLead from '../views/dashboard/AddLead.vue'
+import AddTeam from '../views/dashboard/AddTeam.vue'
 import EditLead from '../views/dashboard/EditLead.vue'
 
 
@@ -56,6 +57,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard/leads/add',
     name: 'AddLead',
     component: AddLead,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/add-team',
+    name: 'AddTeam',
+    component: AddTeam,
     meta: { requireLogin: true }
   },
   {

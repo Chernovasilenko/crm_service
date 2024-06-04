@@ -5,6 +5,14 @@ export default createStore({
     isLoading: false,
     isAuthenticated: false,
     token: '',
+    user: {
+      id: 0,
+      username: '',
+    },
+    team: {
+      id: 0,
+      name: '',
+    }
   },
   getters: {
   },
@@ -14,9 +22,17 @@ export default createStore({
       if (token) {
         state.token = token;
         state.isAuthenticated = true;
+        state.user.username = localStorage.getItem('username') || '';
+        state.user.id = parseInt(localStorage.getItem('user_id') || '0');
+        state.team.name = localStorage.getItem('team_name') || '';
+        state.team.id = parseInt(localStorage.getItem('team_id') || '0');
       } else {
         state.token = '';
         state.isAuthenticated = false;
+        state.user.id = 0;
+        state.user.username = '';
+        state.team.id = 0;
+        state.team.name = '';
       }
     },
     setIsLoading(state, status) {
@@ -30,6 +46,15 @@ export default createStore({
       state.token = ''
       state.isAuthenticated = false
     },
+    setUser(state, user) {
+      state.user = user
+    },
+    setTeam(state, team) {
+      state.team = team
+
+      localStorage.setItem('team_name', team.name)
+      localStorage.setItem('team_id', team.id)
+    }
   },
   actions: {
   },

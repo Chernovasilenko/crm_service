@@ -23,6 +23,10 @@
             .then(response => {
               axios.defaults.headers.common['Authorization'] = ''
               localStorage.removeItem('token')
+              localStorage.removeItem('username')
+              localStorage.removeItem('user_id')
+              localStorage.removeItem('team_name')
+              localStorage.removeItem('team_id')
               this.$store.commit('removeToken')
               this.$router.push('/')
             })

@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'lead.apps.LeadConfig',
+    'team.apps.TeamConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
