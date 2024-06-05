@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import store from '../store'
 
@@ -12,8 +12,7 @@ import AddLead from '../views/dashboard/AddLead.vue'
 import AddTeam from '../views/dashboard/AddTeam.vue'
 import EditLead from '../views/dashboard/EditLead.vue'
 
-
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: '/',
     name: 'home',
@@ -84,12 +83,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isAuthenticated) {
-      next({ name: 'SignIn' })
-    } else {
-      next()
-    }
+  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
+    next('/sign-in')
   } else {
     next()
   }

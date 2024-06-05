@@ -1,12 +1,8 @@
-# crm_vuedrf
+# frontend
 
 ## Project setup
 ```
 npm install
-
-npm install bulma
-npm install bulma-toast
-npm install --save axios vue-axios
 ```
 
 ### Compiles and hot-reloads for development
@@ -21,5 +17,3 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-

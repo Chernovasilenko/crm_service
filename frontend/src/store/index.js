@@ -19,13 +19,13 @@ export default createStore({
   mutations: {
     initializeStore(state) {
       const token = localStorage.getItem('token');
-      if (token) {
-        state.token = token;
+      if (localStorage.getItem('token')) {
+        state.token = localStorage.getItem('token');
         state.isAuthenticated = true;
-        state.user.username = localStorage.getItem('username') || '';
-        state.user.id = parseInt(localStorage.getItem('user_id') || '0');
-        state.team.name = localStorage.getItem('team_name') || '';
-        state.team.id = parseInt(localStorage.getItem('team_id') || '0');
+        state.user.username = localStorage.getItem('username');
+        state.user.id = localStorage.getItem('user_id');
+        state.team.name = localStorage.getItem('team_name');
+        state.team.id = localStorage.getItem('team_id');
       } else {
         state.token = '';
         state.isAuthenticated = false;
