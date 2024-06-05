@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from team.models import Team
+
 User = get_user_model()
 
 
@@ -30,6 +32,11 @@ class Lead(models.Model):
         (HIGH, 'High'),
     )
 
+    team = models.ForeignKey(
+        Team,
+        related_name='leads',
+        on_delete=models.CASCADE
+    )
     company = models.CharField(max_length=255)
     contact_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -47,8 +54,17 @@ class Lead(models.Model):
         choices=PRIORITY_CHOICES,
         default=MEDIUM
     )
+    assigned_to = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        related_name='assigned_leads',
+        on_delete=models.SET_NULL
+    )
     created_by = models.ForeignKey(
-        User, related_name='leads', on_delete=models.CASCADE
+        User,
+        related_name='leads',
+        on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
