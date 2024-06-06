@@ -13,6 +13,10 @@ import AddTeam from '../views/dashboard/AddTeam.vue'
 import EditLead from '../views/dashboard/EditLead.vue'
 import Team from '../views/dashboard/Team.vue'
 import AddMember from '../views/dashboard/AddMember.vue'
+import Clients from '../views/dashboard/Clients.vue'
+import AddClient from '../views/dashboard/AddClient.vue'
+import Client from '../views/dashboard/Client.vue'
+import EditClient from '../views/dashboard/EditClient.vue'
 
 const routes = [
   {
@@ -82,6 +86,30 @@ const routes = [
     path: '/dashboard/team/add-member',
     name: 'AddMember',
     component: AddMember,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/clients',
+    name: 'Clients',
+    component: Clients,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/clients/:id',
+    name: 'Client',
+    component: Client,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/clients/add',
+    name: 'AddClient',
+    component: AddClient,
+    meta: { requireLogin: true }
+  },
+  {
+    path: '/dashboard/clients/:id/edit',
+    name: 'EditClient',
+    component: EditClient,
     meta: { requireLogin: true }
   },
   {
