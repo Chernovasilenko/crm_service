@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from crm_django.constants import (
+    MAX_LENGHT_CHAR_FIELD, MAX_LENGHT_PHONE_FIELD, MAX_STR_LENGTH
+)
 from team.models import Team
 
 User = get_user_model()
@@ -37,10 +40,10 @@ class Lead(models.Model):
         related_name='leads',
         on_delete=models.CASCADE
     )
-    company = models.CharField(max_length=255)
-    contact_name = models.CharField(max_length=255)
+    company = models.CharField(max_length=MAX_LENGHT_CHAR_FIELD)
+    contact_name = models.CharField(max_length=MAX_LENGHT_CHAR_FIELD)
     email = models.EmailField()
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=MAX_LENGHT_PHONE_FIELD)
     website = models.URLField(blank=True, null=True)
     confidence = models.IntegerField(blank=True, null=True)
     estimated_value = models.IntegerField(blank=True, null=True)
@@ -70,4 +73,4 @@ class Lead(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.company
+        return self.company[:MAX_STR_LENGTH]
