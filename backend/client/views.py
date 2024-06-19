@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from client.models import Client, Note
-from team.models import Team
 from client.serializers import ClientSerializer, NoteSerializer
+from lead.models import Lead
+from team.models import Team
 
 User = get_user_model()
 
@@ -36,3 +39,26 @@ class NoteViewSet(viewsets.ModelViewSet):
         serializer.save(
             team=team, created_by=self.request.user, client_id=client_id
         )
+
+
+@api_view(['POST'])
+def convert_lead_to_client(request):
+    team = Team.objects.filter(members__in=[request.user]).first()
+    lead_id = request.data['lead_id']
+
+    try:
+        lead = Lead.objects.get(id=lead_id)
+    except Lead.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    client = Client.objects.create(
+        team=team,
+        name=lead.company,
+        contact_name=lead.contact_name,
+        email=lead.email,
+        phone=lead.phone,
+        website=lead.website,
+        created_by=request.user,
+    )
+
+    return Response(status=status.HTTP_201_CREATED)
