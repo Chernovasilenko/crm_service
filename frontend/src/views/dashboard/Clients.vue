@@ -5,6 +5,20 @@
         <h1 class="title">Clients</h1>
 
           <router-link class="button is-primary" to="/dashboard/clients/add">Add client</router-link>
+
+          <hr>
+
+          <form @submit.prevent="getClients()">
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input" type="text" placeholder="Search" v-model="searchTerm">
+              </div>
+              <div class="control">
+                <button class="button is-primary">Search</button>
+              </div>
+            </div>
+          </form>
+
         </div>
 
         <div class="column is-12">
@@ -25,6 +39,10 @@
                 </tr>
               </tbody>
             </table>
+            <div class="buttons">
+              <button class="button is-light" v-if="showPrevButton" @click="goToPrevPage()">Previous</button>
+              <button class="button is-light" v-if="showNextButton" @click="goToNextPage()">Next</button>
+            </div>
           </template>
           <template v-else>
             <p>No clients found</p>
@@ -41,20 +59,44 @@
         name: 'Clients',
         data() {
           return {
-            clients: []
+            clients: [],
+          showNextButton: false,
+          showPrevButton: false,
+          currentPage: 1,
+          searchTerm: '',
           }
         },
         mounted() {
           this.getClients()
         },
         methods: {
+          async goToNextPage() {
+            this.currentPage += 1
+            this.getClients()
+          },
+          async goToPrevPage() {
+            this.currentPage -= 1
+            this.getClients()
+          },
           async getClients() {
             this.$store.commit('setIsLoading', true)
   
             await axios
-              .get('/api/v1/clients/')
+              .get(`/api/v1/clients/?page=${this.currentPage}&search=${this.searchTerm}`)
               .then(response => {
-                this.clients = response.data
+                this.clients = response.data.results
+
+                if (response.data.next) {
+                  this.showNextButton = true
+                } else {
+                  this.showNextButton = false
+                }
+
+                if (response.data.previous) {
+                  this.showPrevButton = true
+                } else {
+                  this.showPrevButton = false
+                }
               })
               .catch(error => {
                 console.log(JSON.stringify(error))

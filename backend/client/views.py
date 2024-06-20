@@ -1,19 +1,28 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets, status
+from rest_framework import filters, viewsets, status
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from client.models import Client, Note
 from client.serializers import ClientSerializer, NoteSerializer
+from crm_django import constants as const
 from lead.models import Lead
 from team.models import Team
 
 User = get_user_model()
 
 
+class ClientPagination(PageNumberPagination):
+    page_size = const.PAGE_SAZE
+
+
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    pagination_class = ClientPagination
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'contact_name')
 
     def get_queryset(self):
         team = Team.objects.filter(members__in=[self.request.user]).first()
@@ -51,7 +60,7 @@ def convert_lead_to_client(request):
     except Lead.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    client = Client.objects.create(
+    Client.objects.create(
         team=team,
         name=lead.company,
         contact_name=lead.contact_name,

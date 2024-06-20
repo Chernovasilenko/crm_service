@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from rest_framework import filters, viewsets
+from rest_framework.pagination import PageNumberPagination
 
+from crm_django import constants as const
 from lead.models import Lead
 from team.models import Team
 from lead.serializers import LeadSerializer
@@ -8,9 +10,16 @@ from lead.serializers import LeadSerializer
 User = get_user_model()
 
 
+class LeadPagination(PageNumberPagination):
+    page_size = const.PAGE_SAZE
+
+
 class LeadViewSet(viewsets.ModelViewSet):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
+    pagination_class = LeadPagination
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('company', 'contact_name')
 
     def get_queryset(self):
         team = Team.objects.filter(members__in=[self.request.user]).first()
